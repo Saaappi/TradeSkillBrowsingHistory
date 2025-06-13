@@ -2,6 +2,7 @@ local addonTable = select(2, ...)
 local eventFrame = CreateFrame("Frame")
 local maxHistoryEntries = 30
 local selectedRecipeID = 1
+local locale = GetLocale()
 local isInitialOpen = false
 local font = CreateFont("TSBHDropdownFont")
 font:SetFont("Interface\\AddOns\\TradeSkillBrowsingHistory\\Fonts\\RobotoMono-Medium.ttf", 12, "")
@@ -47,7 +48,7 @@ local function UpdateOrCreateDropdown()
         dropdown:SetPoint("BOTTOMRIGHT", ProfessionsFrame.CraftingPage.RecipeList.FilterDropdown, "TOPRIGHT", 0, 12)
         MenuUtil.HookTooltipScripts(dropdown, function()
             GameTooltip:SetText("TradeSkill Browsing History")
-            GameTooltip:AddLine("Select entries from your browsing history to quickly return to previously browsed recipes.", 1, 1, 1, 1, true)
+            GameTooltip:AddLine(addonTable.L[locale], 1, 1, 1, 1, true)
         end)
     end
 

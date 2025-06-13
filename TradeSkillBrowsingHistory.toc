@@ -17,4 +17,5 @@
 ## Category-zhTW: 專業技能
 
 Init.lua
+Locale.lua
 Main.lua
