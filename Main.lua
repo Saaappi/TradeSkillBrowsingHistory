@@ -4,7 +4,7 @@ local maxHistoryEntries = 30
 local selectedRecipeID = 1
 local isInitialOpen = false
 local font = CreateFont("TSBHDropdownFont")
-font:SetFont("Interface\\AddOns\\TradeSkillBrowsingHistory\\Fonts\\DejaVuSansMono.ttf", 11, "")
+font:SetFont("Interface\\AddOns\\TradeSkillBrowsingHistory\\Fonts\\RobotoMono-Medium.ttf", 12, "")
 local dropdown
 
 -- Helper: check if recipe is already in the history
@@ -60,7 +60,6 @@ local function UpdateOrCreateDropdown()
         end
     end)
 
-    --MenuUtil.CreateRadioMenu(dropdown, addonTable.IsSelected, addonTable.SetSelected, unpack(TSBHCDB["BrowsingHistory"]))
     dropdown:Show()
 end
 
