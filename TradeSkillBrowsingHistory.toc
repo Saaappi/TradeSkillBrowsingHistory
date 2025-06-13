@@ -5,6 +5,16 @@
 ## SavedVariablesPerCharacter: TSBHCDB
 ## IconTexture: 134441
 ## Category-enUS: Professions
+## Category-deDE: Berufe
+## Category-esES: Profesiones
+## Category-esMX: Profesiones
+## Category-frFR: Métiers
+## Category-itIT: Professioni
+## Category-koKR: 전문 기술
+## Category-ptBR: Profissões
+## Category-ruRU: Профессии
+## Category-zhCN: 专业技能
+## Category-zhTW: 專業技能
 
 Init.lua
 Main.lua
