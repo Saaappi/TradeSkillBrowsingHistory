@@ -3,6 +3,8 @@ local eventFrame = CreateFrame("Frame")
 local maxHistoryEntries = 30
 local selectedRecipeID = 1
 local isInitialOpen = false
+local font = CreateFont("TSBHDropdownFont")
+font:SetFont("Interface\\AddOns\\TradeSkillBrowsingHistory\\Fonts\\DejaVuSansMono.ttf", 11, "")
 local dropdown
 
 -- Helper: check if recipe is already in the history
@@ -39,6 +41,7 @@ end
 local function UpdateOrCreateDropdown()
     if not dropdown then
         dropdown = CreateFrame("DropdownButton", "TradeskillBrowsingHistoryDropdown", ProfessionsFrame.CraftingPage.RecipeList.FilterDropdown, "WowStyle1DropdownTemplate")
+        dropdown.Text:SetFontObject(font)
         dropdown:EnableMouseWheel(true)
         dropdown:SetWidth(180)
         dropdown:SetPoint("BOTTOMRIGHT", ProfessionsFrame.CraftingPage.RecipeList.FilterDropdown, "TOPRIGHT", 0, 12)
@@ -48,7 +51,16 @@ local function UpdateOrCreateDropdown()
         end)
     end
 
-    MenuUtil.CreateRadioMenu(dropdown, addonTable.IsSelected, addonTable.SetSelected, unpack(TSBHCDB["BrowsingHistory"]))
+    dropdown:SetupMenu(function(_, rootDescription)
+        for _, recipe in ipairs(TSBHCDB["BrowsingHistory"]) do
+            local radio = rootDescription:CreateRadio(recipe[1], addonTable.IsSelected, addonTable.SetSelected, recipe[2])
+            radio:AddInitializer(function(button, description, menu)
+                button.fontString:SetFontObject(font)
+            end)
+        end
+    end)
+
+    --MenuUtil.CreateRadioMenu(dropdown, addonTable.IsSelected, addonTable.SetSelected, unpack(TSBHCDB["BrowsingHistory"]))
     dropdown:Show()
 end
 
