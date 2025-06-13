@@ -1,6 +1,7 @@
 local addonTable = select(2, ...)
 local maxHistoryEntries = 30
 local selectedRecipeID = 1
+local isInitialOpen = false
 local dropdown
 
 -- Helper: check if recipe is already in the history
@@ -31,7 +32,6 @@ function addonTable.SetSelected(value)
     dropdown:SetShown(true)
 
     C_TradeSkillUI.OpenRecipe(selectedRecipeID)
-    TSBHCDB.LAST_POSITION = #TSBHCDB.BrowsingHistory
 end
 
 -- Helper: Create or refresh the dropdown menu
@@ -53,9 +53,9 @@ end
 
 -- Update browsing history when recipe is selected
 local function UpdateBrowsingHistory(recipe)
-    if recipe.recipeID == TSBHCDB.LAST_RECIPE then return end
+    if recipe.recipeID == TSBHCDB["LAST_RECIPE"][addonTable.professionID] then return end
 
-    TSBHCDB.LAST_RECIPE = recipe.recipeID
+    TSBHCDB["LAST_RECIPE"][addonTable.professionID] = recipe.recipeID
 
     if not IsRecipeInHistory(recipe.recipeID) then
         if #TSBHCDB["BrowsingHistory"] >= maxHistoryEntries then
@@ -76,21 +76,33 @@ end
 EventRegistry:RegisterCallback("ProfessionsFrame.Show", function()
     UpdateOrCreateDropdown()
 
-    if next(TSBHCDB.BrowsingHistory) then
-        for _, entry in ipairs(TSBHCDB.BrowsingHistory) do
-            if entry[2] == TSBHCDB.LAST_RECIPE then
-                addonTable.SetSelected(TSBHCDB.LAST_RECIPE)
-                break
+    isInitialOpen = true
+
+    C_Timer.After(0.2, function()
+        local info = ProfessionsFrame.GetProfessionInfo()
+        if info then
+            addonTable.professionID = info.parentProfessionID
+            if next(TSBHCDB.BrowsingHistory) then
+                for _, entry in ipairs(TSBHCDB.BrowsingHistory) do
+                    if entry[2] == TSBHCDB["LAST_RECIPE"][addonTable.professionID] then
+                        addonTable.SetSelected(TSBHCDB["LAST_RECIPE"][addonTable.professionID])
+                        break
+                    end
+                end
+            end
+
+            if TSBHCDB["LAST_RECIPE"][addonTable.professionID] and TSBHCDB["LAST_RECIPE"][addonTable.professionID] ~= 0 then
+                C_TradeSkillUI.OpenRecipe(TSBHCDB["LAST_RECIPE"][addonTable.professionID])
             end
         end
-    end
-
-    if TSBHCDB.LAST_RECIPE and TSBHCDB.LAST_RECIPE ~= 0 then
-        C_TradeSkillUI.OpenRecipe(TSBHCDB.LAST_RECIPE)
-    end
+    end)
 end)
 
 -- Watch for recipe selection
 EventRegistry:RegisterCallback("ProfessionsRecipeListMixin.Event.OnRecipeSelected", function(_, recipe)
+    if isInitialOpen then
+        isInitialOpen = false
+        return
+    end
     UpdateBrowsingHistory(recipe)
 end)

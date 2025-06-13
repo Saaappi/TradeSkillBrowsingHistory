@@ -6,8 +6,7 @@ eventFrame:SetScript("OnEvent", function(_, event, loadedAddon)
     if event == "ADDON_LOADED" and loadedAddon == addonName then
         if not TSBHCDB then
             TSBHCDB = {}
-            TSBHCDB["LAST_POSITION"] = 1
-            TSBHCDB["LAST_RECIPE"] = 0
+            TSBHCDB["LAST_RECIPE"] = {}
             TSBHCDB["BrowsingHistory"] = {}
         end
         eventFrame:UnregisterEvent(event)
