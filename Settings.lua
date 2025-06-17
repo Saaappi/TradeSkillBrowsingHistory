@@ -31,6 +31,16 @@ local function NewSlider(parent, label, min, max, defaultValue, savedVarKey)
 
     holder.Slider:SetScript("OnValueChanged", function()
         local value = holder.Slider:GetValue()
+        local numHistoryItems = #TSBHCDB["BrowsingHistory"]
+        if value < numHistoryItems then
+            local difference = numHistoryItems - value
+            for i = numHistoryItems, 1, -1 do
+                if difference > 0 then
+                    table.remove(TSBHCDB["BrowsingHistory"], i)
+                    difference = difference - 1
+                end
+            end
+        end
         holder.ValueText:SetText(value)
         TSBHCDB[savedVarKey] = value
     end)
