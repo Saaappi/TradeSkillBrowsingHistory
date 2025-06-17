@@ -1,6 +1,7 @@
 ## Interface: 110107
 ## Title: TradeSkillBrowsingHistory
-## Version: 1.1.0
+## Version: @project-version@
+## X-Curse-Project-ID: 1285724
 ## Author: LightskyGG
 ## SavedVariablesPerCharacter: TSBHCDB
 ## IconTexture: 134441
