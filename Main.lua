@@ -1,6 +1,5 @@
 local addonTable = select(2, ...)
 local eventFrame = CreateFrame("Frame")
-local maxHistoryEntries = 30
 local selectedRecipeID = 1
 local locale = GetLocale()
 local isInitialOpen = false
@@ -69,7 +68,7 @@ local function UpdateBrowsingHistory(recipe)
     if recipe.recipeID == TSBHCDB["LAST_RECIPE"][addonTable.professionID] then return end
 
     if not IsRecipeInHistory(recipe.recipeID) then
-        if #TSBHCDB["BrowsingHistory"] >= maxHistoryEntries then
+        if #TSBHCDB["BrowsingHistory"] >= TSBHCDB["MAX_HISTORY_ITEMS"] then
             table.remove(TSBHCDB["BrowsingHistory"])
         end
 
