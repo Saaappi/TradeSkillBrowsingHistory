@@ -1,21 +1,20 @@
-# This is a basic workflow to help you get started with Actions
 name: Release Addon
 
-# Controls when the workflow will run
 on:
   push:
     tags:
       - '**'
 
-env:
-  CF_API_KEY: ${{ secrets.CF_API_KEY }}
-
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   release:
     runs-on: ubuntu-latest
+    env:
+      CF_API_KEY: ${{ secrets.CF_API_KEY }}
+      GITHUB_OAUTH: ${{ secrets.GITHUB_OAUTH }}
     steps:
-      - uses: actions/checkout@v4
+      - name: Clone project
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      - uses: BigWigsMods/packager@v2
+      - name: Release Addon
+        uses: BigWigsMods/packager@v2
