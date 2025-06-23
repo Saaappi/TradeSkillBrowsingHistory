@@ -4,7 +4,6 @@ local selectedRecipeID = 1
 local locale = GetLocale()
 local isInitialOpen = false
 local font = CreateFont("TSBHDropdownFont")
-font:SetFont("Interface\\AddOns\\TradeSkillBrowsingHistory\\Fonts\\RobotoMono-Medium.ttf", 12, "")
 local dropdown
 
 -- Helper: check if recipe is already in the history
@@ -39,6 +38,8 @@ end
 
 -- Helper: Create or refresh the dropdown menu
 local function UpdateOrCreateDropdown()
+    font:SetFont("Interface\\AddOns\\TradeSkillBrowsingHistory\\Fonts\\" .. TSBHDB["FONT"] .. ".ttf", TSBHDB["FONT_SIZE"], "")
+
     if not dropdown then
         dropdown = CreateFrame("DropdownButton", "TradeskillBrowsingHistoryDropdown", ProfessionsFrame.CraftingPage.RecipeList.FilterDropdown, "WowStyle1DropdownTemplate")
         dropdown.Text:SetFontObject(font)
